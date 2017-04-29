@@ -1,0 +1,21 @@
+{
+	"name": "basnik/skautis-unit-contacts",
+	"type": "library",
+	"description": "Skautis unit contacts - unit map and unit details",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Ales Zrak (Basnik)",
+			"email": "az.ba@tiscali.cz",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"autoload": {
+		"classmap": {
+			"classmap": ["src/"]
+		}
+	}
+}
