@@ -28,40 +28,49 @@ class UnitDetailsControl extends BaseControl{
 			if($cached === NULL){
 				$cached = [];
 			}
-			$unitData = $this->loadData($unitId);
 			
-			$cached[$unitId] = $unitData;
-			unset($cached[$unitId]["logo"]); // do not cache nette image
-			$this->cache->save(get_class($this), $cached, [
-				Cache::EXPIRATION => $cacheTime.' minutes'
-			]);
+			try{
+				$unitData = $this->loadData($unitId);
+
+				$cached[$unitId] = $unitData;
+				unset($cached[$unitId]["logo"]); // do not cache nette image
+				$this->cache->save(get_class($this), $cached, [
+					Cache::EXPIRATION => $cacheTime.' minutes'
+				]);
+			
+			}catch(\Skautis\Exception $e){
+				$this->template->skautisError = TRUE;
+				
+				\Tracy\Debugger::log($e);
+			}
 		}
 		
-		$this->template->unitName = ucfirst($unitData["details"]->DisplayName);
-		$this->template->fullName = $unitData["details"]->FullDisplayName;
-		$this->template->unitIdent = $unitData["details"]->RegistrationNumber;
-		
-		$this->template->unitIC = $unitData["details"]->IC;
-		
-		$this->template->qStreet = $unitData["details"]->Street;
-		$this->template->qCity = $unitData["details"]->City;
-		$this->template->qPostcode = $unitData["details"]->Postcode;
-		
-		
-		$this->template->unitText = $unitData["note"];
-		
-		
-		$this->template->unitContacts = $unitData["contacts"];
-		
-		
-		$this->template->statutoryName = $unitData["statutory"];
-		$this->template->assistantName = $unitData["assistant"];
-		
-		
-		$this->template->logoContent = $unitData["logo"];
-		
-		$this->template->mapMarks = json_encode($unitData["marks"]);
-		
+		if(!empty($unitData)){
+			$this->template->unitName = ucfirst($unitData["details"]->DisplayName);
+			$this->template->fullName = $unitData["details"]->FullDisplayName;
+			$this->template->unitIdent = $unitData["details"]->RegistrationNumber;
+
+			$this->template->unitIC = $unitData["details"]->IC;
+
+			$this->template->qStreet = $unitData["details"]->Street;
+			$this->template->qCity = $unitData["details"]->City;
+			$this->template->qPostcode = $unitData["details"]->Postcode;
+
+
+			$this->template->unitText = $unitData["note"];
+
+
+			$this->template->unitContacts = $unitData["contacts"];
+
+
+			$this->template->statutoryName = $unitData["statutory"];
+			$this->template->assistantName = $unitData["assistant"];
+
+
+			$this->template->logoContent = $unitData["logo"];
+
+			$this->template->mapMarks = json_encode($unitData["marks"]);
+		}
 		
 		if($this->templateFile !== NULL){
 			$this->template->setFile($this->templateFile);

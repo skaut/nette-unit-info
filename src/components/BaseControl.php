@@ -10,7 +10,7 @@ use Nette\Caching\Cache;
  */
 abstract class BaseControl extends \Nette\Application\UI\Control{
 	
-	const CACHE_EXPIRY_MINUTES = 2880; // = 60*24*2 = 2 days
+	const CACHE_EXPIRY_MINUTES = 1440; // = 60*24 = 1 day
 	
 	/** @var \Skautis\Skautis */
 	protected $skautis;

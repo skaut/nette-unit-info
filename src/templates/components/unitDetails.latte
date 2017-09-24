@@ -1,37 +1,40 @@
+{if isset($skautisError)}
+	<div class="error">Bohužel došlo k chybě při komunikaci se SkautISem, obsah není možné vypsat :(</div>
+{else}
+	{if !empty($logoContent)}
+		<div class="unitLogo">
+			<img src="{$logoContent|dataStream}">
+		</div>
+	{/if}
 
-{if !empty($logoContent)}
-	<div class="unitLogo">
-		<img src="{$logoContent|dataStream}">
+	<div class="section unitHeader">
+		<div class="heading">{$unitName}</span> <span class="unitId">({$unitIdent})</div>
+		<div class="fullName">{$fullName}</div>
+		<div class="address">{$qStreet}, {$qPostcode} {$qCity}</div>
+		<div class="ic">IČ: {$unitIC}</div>
+	</div>
+
+	<div class="section unitLeaders">
+		<span class="heading">Vedení</span><br>
+		{$statutoryName}, vedoucí<br>
+		{$assistantName}, zástupce vedoucího
+	</div>
+
+	{if !empty($unitText)}
+		<div class="section unitDesc">
+			{$unitText}
+		</div>
+	{/if}
+
+	<div class="section unitContacts">
+		<span class="heading">Kontakty</span><br>
+		{foreach $unitContacts as $contact}
+			<span class="contactType">{$contact->ContactType}</span>: <span class="contactValue">{$contact->DisplayValue|noescape}</span><br>
+		{/foreach}
+	</div>
+
+	<div class="section unitRealties">
+		<span class="heading">Klubovny</span><br>
+		<div id="unitMap" class="map" data-marks="{$mapMarks}"></div>
 	</div>
 {/if}
-
-<div class="section unitHeader">
-	<div class="heading">{$unitName}</span> <span class="unitId">({$unitIdent})</div>
-	<div class="fullName">{$fullName}</div>
-	<div class="address">{$qStreet}, {$qPostcode} {$qCity}</div>
-	<div class="ic">IČ: {$unitIC}</div>
-</div>
-
-<div class="section unitLeaders">
-	<span class="heading">Vedení</span><br>
-	{$statutoryName}, vůdce<br>
-	{$assistantName}, zástupce vůdce
-</div>
-
-{if !empty($unitText)}
-	<div class="section unitDesc">
-		{$unitText}
-	</div>
-{/if}
-
-<div class="section unitContacts">
-	<span class="heading">Kontakty</span><br>
-	{foreach $unitContacts as $contact}
-		<span class="contactType">{$contact->ContactType}</span>: <span class="contactValue">{$contact->DisplayValue|noescape}</span><br>
-	{/foreach}
-</div>
-
-<div class="section unitRealties">
-	<span class="heading">Klubovny</span><br>
-	<div id="unitMap" class="map" data-marks="{$mapMarks}"></div>
-</div>

@@ -26,15 +26,25 @@ class SubunitsMapControl extends BaseControl{
 			if($cached === NULL){
 				$cached = [];
 			}
-			$marks = $this->loadUnitData($unitId);
 			
-			$cached[$unitId] = $marks;
-			$this->cache->save(get_class($this), $cached, [
-				Cache::EXPIRATION => $cacheTime.' minutes'
-			]);
+			try{
+				$marks = $this->loadUnitData($unitId);
+
+				$cached[$unitId] = $marks;
+				$this->cache->save(get_class($this), $cached, [
+					Cache::EXPIRATION => $cacheTime.' minutes'
+				]);
+			}catch(\Skautis\Exception $e){
+				$this->template->skautisError = TRUE;
+				
+				\Tracy\Debugger::log($e);
+			}
+		}
+		
+		if(!empty($marks)){
+			$this->template->mapMarks = json_encode($marks);
 		}
 	
-		$this->template->mapMarks = json_encode($marks);
 		if($this->templateFile !== NULL){
 			$this->template->setFile($this->templateFile);
 		}else{

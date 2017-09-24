@@ -1,3 +1,7 @@
 <div class="subunitMap skautis">
-	<div id="unitMap" class="map" data-marks="{$mapMarks}"></div>
+	{if !isset($skautisError)}
+		<div id="unitMap" class="map" data-marks="{$mapMarks}"></div>
+	{else}
+		<div class="error">Bohužel došlo k chybě při komunikaci se SkautISem, obsah není možné vypsat :(</div>
+	{/if}
 </div>
