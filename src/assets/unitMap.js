@@ -1,6 +1,8 @@
 // mapy api https://api.mapy.cz/view?page=markercard
 ;(function(){
 	
+	var mapEls = document.querySelectorAll(".skautisUnitMap");
+	
 	function loadScript(url,callback){
 		var scriptTag = document.createElement('script');
 		scriptTag.src = url;
@@ -9,14 +11,19 @@
 		scriptTag.addEventListener('load', callback);
 	}
 	
-	function loadMap(){
+	function loadMaps(){
 		Loader.async = true;
-		Loader.load(null, null, createMap);
+		Loader.load(null, null, initMaps);
 	}
 	
-	function createMap(){
-		
-		var mapEl = document.getElementById("unitMap");
+	function initMaps(){
+		Array.prototype.forEach.call (mapEls, function (mapEl) {
+			createMap(mapEl);
+		});
+	}
+	
+	function createMap(mapEl){
+	
 		var marks = JSON.parse(mapEl.getAttribute("data-marks"));
 		var markerUrl = "https://api.mapy.cz/img/api/marker/drop-red.png";
 		var coords = [];
@@ -52,6 +59,8 @@
 		m.setCenterZoom(cz[0], cz[1]); 
 	}
 	
-	loadScript("https://api.mapy.cz/loader.js", loadMap);
+	if(mapEls.length > 0){
+		loadScript("https://api.mapy.cz/loader.js", loadMaps);
+	}
 	
 }());
