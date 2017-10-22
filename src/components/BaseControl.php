@@ -1,5 +1,5 @@
 <?php
-namespace Basnik\SkautisUnitContacts;
+namespace Skautis\NetteUnitInfo;
 
 use Nette\Caching\Cache;
 

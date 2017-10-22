@@ -1,5 +1,5 @@
 <?php
-namespace Basnik\SkautisUnitContacts;
+namespace Skautis\NetteUnitInfo;
 
 /**
  *Sets up the extension
@@ -16,7 +16,7 @@ class Extension extends \Nette\DI\CompilerExtension{
 		$builder = $this->getContainerBuilder();
 		
 		// register our services
-		$builder->addDefinition($this->prefix('skautisUnitDetailsControl'))->setImplement('Basnik\SkautisUnitContacts\IUnitDetailControlFactory');
-		$builder->addDefinition($this->prefix('skautisSubunitsMapControl'))->setImplement('Basnik\SkautisUnitContacts\ISubunitsMapControlFactory');
+		$builder->addDefinition($this->prefix('skautisUnitDetailsControl'))->setImplement('Skautis\NetteUnitInfo\IUnitDetailControlFactory');
+		$builder->addDefinition($this->prefix('skautisSubunitsMapControl'))->setImplement('Skautis\NetteUnitInfo\ISubunitsMapControlFactory');
 	}
 }

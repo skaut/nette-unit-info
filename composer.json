@@ -1,5 +1,5 @@
 {
-	"name": "basnik/skautis-unit-contacts",
+	"name": "skautis/nette-unit-info",
 	"type": "library",
 	"description": "Skautis unit contacts - unit map and unit details",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],

@@ -1,6 +1,6 @@
 <?php
 
-namespace Basnik\SkautisUnitContacts;
+namespace Skautis\NetteUnitInfo;
 
 /**
  * Used for DI.
