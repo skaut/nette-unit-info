@@ -13,9 +13,8 @@ use Nette\Caching\Cache;
 class UnitDetailsControl extends BaseControl{
 
 
-    public function render($unitId, $cacheMinutes=NULL){
+    public function render($unitId){
 
-        $cacheTime = $cacheMinutes !== NULL ? intval($cacheMinutes) : self::CACHE_EXPIRY_MINUTES;
         $unitData = [];
 
         // first look for cache
@@ -35,7 +34,7 @@ class UnitDetailsControl extends BaseControl{
                 $cached[$unitId] = $unitData;
                 unset($cached[$unitId]["logo"]); // do not cache nette image
                 $this->cache->save(get_class($this), $cached, [
-                    Cache::EXPIRATION => $cacheTime.' minutes'
+                    Cache::EXPIRATION => $this->cacheTime.' minutes'
                 ]);
 
             }catch(\Skautis\Exception $e){
@@ -46,11 +45,12 @@ class UnitDetailsControl extends BaseControl{
         }
 
         if(!empty($unitData)){
+
             $this->template->unitName = ucfirst($unitData["details"]->DisplayName);
-            $this->template->fullName = $unitData["details"]->FullDisplayName;
+            $this->template->fullName = isset($unitData["details"]->FullDisplayName) ? $unitData["details"]->FullDisplayName : "";
             $this->template->unitIdent = $unitData["details"]->RegistrationNumber;
 
-            $this->template->unitIC = $unitData["details"]->IC;
+            $this->template->unitIC = isset($unitData["details"]->IC) ? $unitData["details"]->IC : "";
 
             $this->template->qStreet = $unitData["details"]->Street;
             $this->template->qCity = $unitData["details"]->City;
@@ -69,7 +69,7 @@ class UnitDetailsControl extends BaseControl{
 
             $this->template->logoContent = $unitData["logo"];
 
-            $this->template->mapMarks = json_encode($unitData["marks"]);
+            $this->template->mapMarks = !empty($unitData["marks"]) ? json_encode($unitData["marks"]) : "";
         }
 
         if($this->templateFile !== NULL){

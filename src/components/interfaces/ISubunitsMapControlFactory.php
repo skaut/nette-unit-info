@@ -10,7 +10,7 @@ namespace Skautis\NetteUnitInfo;
  */
 interface ISubunitsMapControlFactory {
 	
-	/** 
+	/**
 	 * @return SubunitsMapControl 
 	 */
 	public function create();

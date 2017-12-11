@@ -13,10 +13,9 @@ use Nette\Caching\Cache;
 class SubunitsMapControl extends BaseControl{
 
 
-    public function render($unitId, $cacheMinutes=NULL){
+    public function render($unitId){
 
         $marks = [];
-        $cacheTime = $cacheMinutes !== NULL ? intval($cacheMinutes) : self::CACHE_EXPIRY_MINUTES;
 
         // first look for cache
         $cached = $this->cache->load(get_class($this));
@@ -32,7 +31,7 @@ class SubunitsMapControl extends BaseControl{
 
                 $cached[$unitId] = $marks;
                 $this->cache->save(get_class($this), $cached, [
-                    Cache::EXPIRATION => $cacheTime.' minutes'
+                    Cache::EXPIRATION => $this->cacheTime.' minutes'
                 ]);
             }catch(\Skautis\Exception $e){
                 $this->template->skautisError = TRUE;

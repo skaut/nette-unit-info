@@ -10,7 +10,7 @@ namespace Skautis\NetteUnitInfo;
  */
 interface IUnitDetailControlFactory {
 	
-	/** 
+	/**
 	 * @return UnitDetailsControl 
 	 */
 	public function create();

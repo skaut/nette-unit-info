@@ -11,8 +11,6 @@ use Nette\Caching\Cache;
  */
 abstract class BaseControl extends \Nette\Application\UI\Control{
 
-    const CACHE_EXPIRY_MINUTES = 1440; // = 60*24 = 1 day
-
     /** @var \Skautis\Skautis */
     protected $skautis;
 
@@ -22,14 +20,18 @@ abstract class BaseControl extends \Nette\Application\UI\Control{
     /** @var string */
     protected $templateFile;
 
+    /** @var  string */
+    protected $cacheTime;
+
     protected $headingCallback;
     protected $descCallback;
 
-    public function __construct(\Skautis\Skautis $skautis, \Nette\Caching\IStorage $storage, \Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
+    public function __construct($cacheTime = null, \Skautis\Skautis $skautis, \Nette\Caching\IStorage $storage, \Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
         parent::__construct($parent, $name);
 
         $this->skautis = $skautis;
         $this->cache = new Cache($storage);
+        $this->cacheTime = $cacheTime;
         $this->headingCallback = function($realty){ return $realty->Realty_RealtyType." ".$realty->Realty_Street; };
         $this->descCallback = function($realty){ return $realty->Realty_Description; };
     }
