@@ -40,10 +40,8 @@ class SubunitsMapControl extends BaseControl{
             }
         }
 
-        if(!empty($marks)){
-            $this->template->mapMarks = json_encode($marks);
-        }
-
+        $this->template->mapMarks = json_encode($marks);
+        
         if($this->templateFile !== NULL){
             $this->template->setFile($this->templateFile);
         }else{

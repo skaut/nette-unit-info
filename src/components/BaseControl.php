@@ -27,8 +27,6 @@ abstract class BaseControl extends \Nette\Application\UI\Control{
     protected $descCallback;
 
     public function __construct($cacheTime = null, \Skautis\Skautis $skautis, \Nette\Caching\IStorage $storage, \Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
-        parent::__construct($parent, $name);
-
         $this->skautis = $skautis;
         $this->cache = new Cache($storage);
         $this->cacheTime = $cacheTime;

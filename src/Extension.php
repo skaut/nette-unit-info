@@ -23,11 +23,13 @@ class Extension extends \Nette\DI\CompilerExtension{
         $config = $this->validateConfig($this->defaults);
 
         // register our services
-        $builder->addDefinition($this->prefix('skautisUnitDetailsControl'))
+        $builder->addFactoryDefinition($this->prefix('skautisUnitDetailsControl'))
             ->setImplement('Skautis\NetteUnitInfo\IUnitDetailControlFactory')
-            ->setArguments([$config['cacheTime']]);
-        $builder->addDefinition($this->prefix('skautisSubunitsMapControl'))
+			->getResultDefinition()
+            	->setArguments([$config['cacheTime']]);
+        $builder->addFactoryDefinition($this->prefix('skautisSubunitsMapControl'))
             ->setImplement('Skautis\NetteUnitInfo\ISubunitsMapControlFactory')
-            ->setArguments([$config['cacheTime']]);
+			->getResultDefinition()
+            	->setArguments([$config['cacheTime']]);
     }
 }
