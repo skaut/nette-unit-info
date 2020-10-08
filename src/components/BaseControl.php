@@ -57,6 +57,7 @@ abstract class BaseControl extends \Nette\Application\UI\Control{
                 $unitData = $organizationUnit->unitAll(["ID_UnitChild" => $realty->ID_Unit])[0];
                 $realty->ID_UnitParent = $unitData->ID;
                 $realty->ID_UnitType_parent = $unitData->ID_UnitType;
+                $realty->ParentUnitName = $unitData->DisplayName;
 
                 $marks[$realty->Realty_ID] = [
                     "lat" => $realty->Realty_GpsLatitude,
