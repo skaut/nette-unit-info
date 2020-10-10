@@ -14,11 +14,13 @@
         {if !empty($unitIC)}<div class="ic">IČ: {$unitIC}</div>{/if}
     </div>
 
-    <div class="section unitLeaders">
-        <span class="heading">Vedení</span><br>
-        {$statutoryName}, vedoucí<br>
-        {$assistantName}, zástupce vedoucího
-    </div>
+    {if !empty($statutoryName) || !empty($assistantName)}
+        <div class="section unitLeaders">
+            <span class="heading">Vedení</span><br>
+            {if !empty($statutoryName)}{$statutoryName}, vedoucí<br>{/if}
+            {if !empty($assistantName)}{$assistantName}, zástupce vedoucího{/if}
+        </div>
+    {/if}
 
     {if !empty($unitText)}
         <div class="section unitDesc">
@@ -26,12 +28,47 @@
         </div>
     {/if}
 
-    <div class="section unitContacts">
-        <span class="heading">Kontakty</span><br>
-        {foreach $unitContacts as $contact}
-            <span class="contactType">{$contact->ContactType}</span>: <span class="contactValue">{$contact->DisplayValue|noescape}</span><br>
-        {/foreach}
-    </div>
+    {if count($unitContacts) > 0}
+        <div class="section unitContacts">
+            <span class="heading">Kontakty</span><br>
+            {foreach $unitContacts as $contact}
+                <span class="contactType">{$contact->ContactType}</span>: <span class="contactValue">{$contact->DisplayValue|noescape}</span>
+                {if !empty($contact->Note)}, poznámka: {$contact->Note}{/if}
+                <br>
+            {/foreach}
+        </div>
+    {/if}
+
+    {if !empty($places)}
+        <div class="section unitMeetings">
+            <div class="meetings">
+                {foreach $places as $place}
+                    {continueIf empty($place["meetings"])}
+                    <div class="place">
+                        <div class="placeName">Schůzky - {$place["name"]}</div>
+                        <table class="placeMeetings">
+                            {foreach $place["meetings"] as $meeting}
+                                <tr>
+                                    <td>{$meeting["unit"]}</td>
+                                    <td>{$meeting["day"]}</td>
+                                    <td>{$meeting["start"]} - {$meeting["end"]}</td>
+                                    <td>{$meeting["periodicity"]}</td>
+                                    <td>
+                                        {foreach $meeting["categories"] as $category}
+                                            {if $category["sex"] == "male"}chlapci{else}dívky{/if}
+                                            {$category["ageFrom"]} - {$category["ageTo"]} let
+                                            {if !empty($category["note"])}({$category["note"]}){/if}
+                                            {sep}<br>{/sep}
+                                        {/foreach}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </table>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+    {/if}
 
     {if !empty($mapMarks)}
         <div class="section unitRealties">

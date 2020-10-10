@@ -70,6 +70,7 @@ class UnitDetailsControl extends BaseControl{
             $this->template->logoContent = $unitData["logo"];
 
             $this->template->mapMarks = !empty($unitData["marks"]) ? json_encode($unitData["marks"]) : "";
+            $this->template->places = $unitData["places"];
         }
 
         if($this->templateFile !== NULL){
@@ -93,15 +94,17 @@ class UnitDetailsControl extends BaseControl{
         $adData = $organizationUnit->advertisingDetail(["ID_Unit" => $unitId]);
         $unitData["note"] = isset($adData->Note) ? $adData->Note : "";
 
-        $unitData["contacts"] = $organizationUnit->unitContactAll(["ID_Unit" => $unitId]);
+        // contacts are returned as an array, if no contacts are available, empty object is returned, so is_array is one of the best ways to check
+        $contacts = $organizationUnit->unitContactAll(["ID_Unit" => $unitId]);
+        $unitData["contacts"] = is_array($contacts) ? $contacts : [];
 
         $statutoryDataArray = $organizationUnit->functionAllRegistry(["ID_Unit" => $unitId, "ReturnStatutory" => TRUE]);
         $statutoryData = reset($statutoryDataArray);
-        $unitData["statutory"] = $statutoryData->Person;
+        $unitData["statutory"] = isset($statutoryData->Person) ? $statutoryData->Person : "";
 
         $assistantDataArray = $organizationUnit->functionAllRegistry(["ID_Unit" => $unitId, "ReturnAssistant" => TRUE]);
         $assistantData = reset($assistantDataArray);
-        $unitData["assistant"] = $assistantData->Person;
+        $unitData["assistant"] = isset($assistantData->Person) ? $assistantData->Person : "";
 
         $logoData = $organizationUnit->unitLogo(["ID" => $unitId]);
         $unitData["logo"] = NULL;
@@ -110,7 +113,9 @@ class UnitDetailsControl extends BaseControl{
             $unitData["logo"] = \Nette\Utils\Image::fromString($logoData->LogoContent);
         }
 
-        $unitData["marks"] = $this->loadUnitMapData($unitId);
+        $realtyData = $this->loadUnitMapData($unitId);
+        $unitData["marks"] = $realtyData["marks"];
+        $unitData["places"] = $realtyData["places"];
 
         return $unitData;
     }

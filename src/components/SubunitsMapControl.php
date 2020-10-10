@@ -27,8 +27,8 @@ class SubunitsMapControl extends BaseControl{
             }
 
             try{
-                $marks = $this->loadUnitMapData($unitId);
-
+                $data = $this->loadUnitMapData($unitId);
+                $marks = $data["marks"];
                 $cached[$unitId] = $marks;
                 $this->cache->save(get_class($this), $cached, [
                     Cache::EXPIRATION => $this->cacheTime.' minutes'
